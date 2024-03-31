@@ -241,17 +241,17 @@ In general, performance of LLMs has scaled with compute and data in recent years
 To generate explanations for all datapoints in the dataset, we use \texttt{gpt-3.5-turbo}, which we prompt with instructions and few-shot examples with explanations appended. Here is an example of a GPT generated explanation for the training example at the beginning of this section:
 
 \begin{verbatim}
-The commenter is likely a fan of the Falcons, as they are playing against 
-the Steelers and have a low win probability. The comment is criticizing the 
-quarterback play of both teams, mentioning 'Pickett' (Steelers) for 
-underthrows (tagged as [OUT]) and 'Mariota' (Falcons) for overthrows 
-(tagged as [IN]). 'we'd' should also be tagged as [IN] since it refers to 
-the in-group, the Falcons.
+The commenter is likely a fan of the Falcons, as they are playing 
+against the Steelers and have a low win probability. The comment is 
+criticizing the quarterback play of both teams, mentioning 'Pickett' 
+(Steelers) for underthrows (tagged as [OUT]) and 'Mariota' (Falcons) 
+for overthrows (tagged as [IN]). 'we'd' should also be tagged as [IN] 
+since it refers to the in-group, the Falcons.
 \end{verbatim}
 
 GPT-generated explanations involve complex reasoning over the entities mentioned in the comment, knowledge of football, as well as linguistic reasoning. Thus, while our model is relatively small \footnote{768M parameters, compared to GPT-3.5's 175B parameters}, we can still gain the advantages of CoT through finetuning on GPT-3.5 generated explanations.
 
-\paragraph{Ceiling performance} To compare the effectiveness of our techniques, we also evaluate the performance of GPT-3.5 and GPT4~\citep{achiam2023gpt} on our gold dataset. We present each datapoint from our dataset with instructions, few-shot examples and explanations, asking the model to generate an explanation, a list of referring expressions, and the target tagged comment in that order. We find 
+\paragraph{Ceiling performance} To compare the effectiveness of our techniques, we also evaluate the performance of GPT-3.5 and GPT4~\citep{achiam2023gpt} on our gold dataset. We present each datapoint from our dataset with instructions, few-shot examples and explanations, asking the model to generate an explanation, a list of referring expressions, and the target tagged comment in that order.
 
 \paragraph{Evaluation \& Implementation} Based on the techiques defined above, we build and compare 4 different fine-tuned models that explore different combinations of techniques: \texttt{fewshot}, \texttt{fewshot+instruct}, \texttt{fewshot+cot}, and \texttt{fewshot+instruct+cot}, where \texttt{+} indicates a combination of 2 or more techniques described above. We partition our gold dataset into a test set of 318 datapoints, and a training set of 1181 datapoints. 
 
@@ -331,6 +331,5 @@ There are two takeaways from the application of our best fine-tuned model on a l
 The trends observed with in-group references versus WP also add to the subtle ways we perpetuate bias in our linguistic behavior, especially in this case towards \textbf{in-group preservation}~\citep{maass_linguistic_1999}. While commenters are more than willing to criticize the in-group across WP, the self-protective instinct is evident in the way they choose to refer to the in-group using \emph{we/us} rather than \emph{they/them}, or to not refer to the in-group at all, abstracting away to talking about their sentiment or description of the events. How commenters choose the form of reference to an in-group constitutes just as subtle a bias as their choice of predicate.
 
 \paragraph{Out-group} Regarding the out-group (and other), reference frequency remains stable over all WP --- commenters also refer to the out-group explicitly or implicitly much less. References to the out-group are most frequent at the lowest/highest WP (corresponding to the end of a game when win/loss is certain) and relatively stable throughout otherwise (see Appendix~\ref{appendix:figs} for plots). This is similar to our findings in Chapter~\ref{chapter:twitter}, where there was a clear bias in positive emotions towards the in-group, revealing a drawback of studying intergroup bias on naturally occurring language (as opposed to elicited utterances generally in the LIB) at scale --- speakers prefer to talk about their in-group overall, and with negative affect when they do talk about the out-group.
-
 
 \paragraph{Modeling Improvements} As discussed in the previous section, there is room for improvement on large-scale tagging of referential expressions, especially out-group references. This doesn't detract from our analysis in the previous section --- the model's performance isn't correlated with WP, and a significant reason for the low performance of our model can be attributed to size. GPT-4 outperforms our model on recall over out-group references, and a lot of its gains come courtesy of its size. A new generation of open LLMs including Mistral~\citep{jiang2023mistral}, Gemma~\cite{geminiteam2023gemini}, and OLMo~\citep{Groeneveld2023OLMo} provide competitive performance on benchmarks to GPT-4, and exhibit complex reasoning and general knowledge of events and entities --- crucial towards performance on our tagging task. These need to be explored for further gains on out-group tagging performance.

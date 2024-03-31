@@ -1,24 +1,22 @@
 \chapter{Summary}
 \label{chapter:summary}
 
+This dissertation is a compilation of three different data-driven experimental studies into intergroup bias in natural language online.
 
+\paragraph{Intergroup bias in tweets} Chapter~\ref{chapter:twitter} introduced the idea of studying intergroup bias more broadly as distinct from the artificial conditions under which the LIB has proven to exist. By decomposing the bias into two constituent dimensions --- emotion and intergroup relationship, we can observe systematic relationships between these two. Modeling further fortifies this correlation, showing that it is possible to study the intergroup bias in a data-driven way to derive insights into social communication at scale
 
-\paragraph{Intergroup bias in tweets}
+\paragraph{Counterfactual probing for intergroup bias} Building atop the dataset and models in Chapter~\ref{chapter:twitter}, in Chapter~\ref{chapter:probing} we investigated if the neural models fine-tuned for predicting intergroup relationships use human-interpretable higher order semantic features like affect and specificity in making their decisions. Counterfactual probing techniques allowed us to ask this question in a measured way on neural models. While our specific hypothesis failed to hold up, our experiments revealed the need for grounded language data in order to tie systematic variation in in-group and out-group speech to events that preceded them.
 
+\paragraph{Grounding intergroup bias in football comments} Chapter~\ref{chapter:football} introduces a new dataset of interpersonal comments, in the domain of American Football, with comments sourced from live game threads on NFL team subreddits. By cross-comparison with historical statistics from live games, we can use win probability as an accurate measurement of state-of-the-world leading up to comments by participants about the in-group or out-group. We find several significant, linear patterns in the form of referent used to refer to in-group and out-group; The more likely the in-group is to win, the more likely fans are to abstract away from referring to the in-group by name, pronoun or even implicitly, towards abstract descriptions of the events with no clear referent. Referents to the out-group however, remain stable across win probabilities. 
 
-\paragraph{Counterfactual probing for intergroup bias}
-
-
-\paragraph{Grounding Intergroup bias in football comments}
-
+Overall, the findings in this dissertation refine the LIB for broad application and study in real-world language use, by encompassing more forms of variation in the entirety of an utterance, and including other axes of human expression, like affect and emotion. 
 
 \section{Future Work}
 
+This dissertation is an attempt at answering complex questions about subtle changes in linguistic behavior. There are several unanswered questions, and promising topics for future investigation, a few of which I summarize below.
 
-\paragraph{Generalization}
+\paragraph{Stereotypes} The LIB hypothesis is a mechanism for how bias subconsciously seeps into utterances; However, the impetus for the hypothesis was to explain how stereotypes persist and propagate in communication. This was the reason for the focus on \emph{abstractness} of predicates --- there is some evidence that `abstract' language (as narrowly defined) is liable to reinforce conventions and labels cognitively. By relaxing the focus on stereotype-related behaviors and speech, we have been able to study more natural language; But this renews the question of what effect the observed linguistic behaviors have on stereotype perpetuation.
 
+\paragraph{Parallel \& Multilingual} Chapter~\ref{chapter:football} introduces a dataset of interpersonal comments, with parallel live-game statistics to ground the utterances. Beyond the findings in \textsection~\ref{section:football-analysis}, the dataset has a wealth of information in the \emph{parallel} nature of the utterances from fans of both teams observing the same sequence of events. Furthermore, there are possibilities for expanding the scope of this study to multilingual parallel comments, for instance from the live-broadcast comments of NFL games in Spanish and English. 
 
-\paragraph{Stereotypes}
-
-
-\paragraph{}
+\paragraph{Language Modeling with grounding} As the findings in Chapter~\ref{chapter:football} reveal, win probability (WP) is a remarkable real-valued indicator of the state-of-the-world, compressed succinctly in a real-valued number. Crucially, it grounds the utterance for both sets of fans and their in-group robustly, evidenced by the linear relationship between WP and several linguistic indicators. While a wealth of work has looked into grounding language models in images and other modalities~\citep{Radford2021LearningTV}, there has been relatively little work looking into grounding with parallel meaning representations of ground state. The parallel corpus of game comments from two perspectives, with a non-linguistic description of events, should prove to be an exciting avenue for research into training language models with steerable intergroup dynamics, or perspective.
