@@ -1,0 +1,12 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Model} & \textbf{<in>} & \textbf{<out>} & \textbf{<other>} \\ \midrule
+        \texttt{fewshot+instruct+cot} & \textbf{66.6} & 32.1 & 14.1 \\ \midrule
+        \texttt{gpt-3.5-turbo} & 54.5 & 39.3 & 32.1  \\ \midrule
+        \texttt{gpt-4} & 62.5 & \textbf{53.6} & \textbf{28.8}  \\ \bottomrule
+    \end{tabular}
+    \caption{Recall scores for each tag on test split for all models.}
+    \label{tab:football-results-rec}
+\end{table}

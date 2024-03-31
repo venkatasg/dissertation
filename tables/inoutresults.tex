@@ -1,0 +1,14 @@
+\begin{table}[t]
+	\centering
+	\begin{tabular}{lr|lr}
+		\toprule
+		\textbf{Model} & \textbf{F1} & \textbf{Model} & \textbf{F1} \\ \midrule
+		Majority class & 51.1 & BERTweet & 74.1 (3.3) \\
+		Sentiment-Rule & 56.3 & BERTweet-ft & 66.5 (1.6) \\
+		NB-SVM & 62.5 & Multitask & 77.3 (0.8) \\
+        Human & 66.7 & & \\
+        \bottomrule
+	\end{tabular}
+	\caption{Results on test set, with SD in parentheses, for interpersonal group relationship prediction task.}
+	\label{tab:inoutresults}
+\end{table}

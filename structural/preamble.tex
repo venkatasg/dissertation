@@ -1,0 +1,147 @@
+
+\usepackage[authoryear, round]{natbib}
+\usepackage{styles/utformat}  		% Package style file for UT ETDs.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Optional packages used for this template. If you don't
+% need a capability in your document, feel free to comment out/remove
+% the package usage command.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pdflscape}
+\usepackage{layout}
+\usepackage{graphicx}
+\usepackage{amsmath,amsthm,amsfonts,amscd}
+\usepackage{unicode-math}
+\usepackage{eucal} 	 
+\usepackage{verbatim}    
+\usepackage{styles/citesort}     
+\usepackage{algorithm}
+\usepackage{bibentry}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{markdown}
+\usepackage{booktabs}
+\usepackage{url}
+
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{tabularx}
+\usepackage{bbm}% Allows good typesetting of web URLs.
+\usepackage{mathtools}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    breaklinks,
+    linkcolor=black,
+    urlcolor=AmmaBlue,
+    citecolor=AmmaBlue,
+    filecolor=AmmaBlue
+}
+
+
+% Typography
+\setmainfont[Numbers={Lowercase,Proportional}, Contextuals=Alternate]{Century Supra A}
+\newcommand\liningfont{\addfontfeatures{Numbers={Uppercase, Proportional}}}
+\newfontfamily{\rmsc}{Century Supra A Caps}[Letters=UppercaseSmallCaps, LetterSpace=5, Numbers={Lowercase,Proportional}]
+\newfontfamily{\rmcs}{Century Supra A Caps}[Letters=Uppercase, LetterSpace=5, Numbers={Uppercase,Proportional}]
+
+% IPA, monospace, and math fonts
+\setmonofont[Scale=0.9]{Triplicate A}
+\setmathfont[Path=/Users/venkat/Library/Fonts/, Extension=.otf,Scale=0.9,Ligatures=TeX, BoldFont=XCharter-Bold,
+    ItalicFont=XCharter-Italic, Numbers={Uppercase,Monospaced}]{XCharter-Roman}
+
+% Oldstyle tabular numbers inside tabular environment
+\AtBeginEnvironment{tabular}{\addfontfeatures{Numbers={Uppercase, Monospaced}}}
+\AtBeginEnvironment{tikzpicture}{\addfontfeatures{Numbers={Uppercase, Monospaced}}\small}
+\renewcommand{\theequation}{ {\addfontfeatures{Numbers={Uppercase, Monospaced}}\small\arabic{equation}}}
+
+% Custom Blue
+\definecolor{AmmaBlue}{HTML}{0366D6}
+\definecolor{TolIndigo}{HTML}{332288}
+\definecolor{TolCyan}{HTML}{88CCEE}
+\definecolor{TolTeal}{HTML}{44AA99}
+\definecolor{TolGreen}{HTML}{117733}
+\definecolor{TolOlive}{HTML}{999933}
+\definecolor{TolSand}{HTML}{DDCC77}
+\definecolor{TolRose}{HTML}{CC6677}
+\definecolor{TolWine}{HTML}{882255}
+\definecolor{TolPurple}{HTML}{AA4499}
+\definecolor{TolPaleGrey}{HTML}{DDDDDD}
+
+\usepackage{linguex}
+\usepackage{soul}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{shapes,arrows}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Default is one-and-a-half spacing. Double is also permitted.%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\oneandonehalfspacing
+% \doublespacing
+
+% Strong widow and orphan control - avoid any widows and orphans
+\clubpenalty10000
+\widowpenalty10000
+
+% French Spacing - single spacing between sentences
+\frenchspacing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Some math support.					     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Theorem environments (these need the amsthm package)
+%
+%% \theoremstyle{plain} %% This is the default
+% 
+% \newtheorem{thm}{Theorem}[chapter]
+% \newtheorem{cor}[thm]{Corollary}
+% \newtheorem{lem}[thm]{Lemma}
+% \newtheorem{prop}[thm]{Proposition}
+% \newtheorem{ax}{Axiom}
+% 
+% \theoremstyle{definition}
+% \newtheorem{defn}{Definition}[chapter]
+% 
+% \theoremstyle{remark}
+% \newtheorem{rem}{Remark}[chapter]
+% \newtheorem*{notation}{Notation}
+
+%\numberwithin{equation}{section}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Macros.							     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Here some macros that are needed in this document:
+
+
+\newcommand{\latexe}{{\LaTeX\kern.125em2%
+                      \lower.5ex\hbox{$\varepsilon$}}}
+
+\newcommand{\amslatex}{\AmS-\LaTeX{}}
+
+\chardef\bslash=`\\	% \bslash makes a backslash (in tt fonts)
+			%	p. 424, TeXbook
+
+\newcommand{\cn}[1]{\texttt{\bslash #1}}
+
+\makeatletter		% Starts section where @ is considered a letter
+			% and thus may be used in commands.
+\def\square{\RIfM@\bgroup\else$\bgroup\aftergroup$\fi
+  \vcenter{\hrule\hbox{\vrule\@height.6em\kern.6em\vrule}%
+                                              \hrule}\egroup}
+\makeatother		% Ends sections where @ is considered a letter.
+			% Now @ cannot be used in commands.
+
+\nobibliography*
+
+
+% These values determine the numbering within the text and Table of Contents.
+\setcounter{secnumdepth}{3}    % Number subsections in the chapters.
+\setcounter{tocdepth}{1} % include subsections in the Table of Contents

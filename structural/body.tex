@@ -1,0 +1,90 @@
+% This is the body of your document. You may copy-paste it into your main document
+% (dissertation.tex, masterreport.tex, masterthesis.tex, treatise.tex), or edit it here.
+
+
+\copyrightpage  % Produces the copyright page. Optional.
+
+\commcertpage   % Produces the Committee Certification
+			%   of Approved Version page (doctoral)
+			%   or Signature page (masters).
+			%		20 Mar 2002	cwm
+                % Required.
+
+\titlepage      % Produces the title page. Required.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedication and/or epigraph are optional, but must occur here.      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dedication}		% Optional
+\begin{center}
+    To my mother and father.
+\end{center}
+\end{dedication}
+
+\begin{epigraph}		% Optional
+    \begin{center}
+        \textit{Machine learning is like money laundering for bias.  It’s a clean, mathematical apparatus that gives the status quo the aura of logical inevitability. The numbers don’t lie.}
+        \\\hspace{4em}---Maciej Ceglowski, \href{https://idlewords.com/talks/sase_panel.htm}{The Moral Economy of Tech}
+    \end{center}
+\end{epigraph}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Acknowledgements and/or preface are optional, but must occur here. %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{acknowledgments}		% Optional
+    This dissertation would not have been possible without the support of many people. I would like to thank my advisors Jessy, David, Kyle and Malihe, for their generosity over the last five years. They have always set aside their valuable time to talk to me about my progress, successes and failures. Thank you deeply.
+    
+    I owe a debt of gratitude to Matianyu (Yuki) Zang, my collaborator over the last year, whose work on data curation and preprocessing has been invaluable. 
+    
+    My favorite activity in my PhD has been the research seminars, particularly the Computational Linguistics seminar, that I have attended weekly since Fall 2019. The conversations and arguments over research papers and projects with Katrin, Gabriella, Yejin, Juan Diego, Yating, Will, Hongli, Kanishka and many other researchers have taught me what it means to do research and be an academic, and made me a betteer one for it. Thank you for your feedback and thoughts on all my talks over the years.
+    
+    The last five years have been easier to bear with a close group of friends --- Benny, Gus, Hunter, and Ethan who I co-habited with through the beginning of the pandemic, and many years into it. Blake, Bryan and Erin for all those nights spent eating, drinking, at trivia, and commiserating as we navigated grad school. Sam, for choosing me as his side-kick with SXSemantics, and for being there for me when I needed community the most. Karoline, for a loving relationship that I will always cherish. Thank you all for welcoming me in, and for accepting all of me.
+    
+    Everything in the end comes back to my mother and father, who have wished nothing else but for me to study and learn, and built opportunities for me that were never afforded to them. I am indebted to them for the opportunity to spend five years trying to understand this world a little bit more.
+\end{acknowledgments}
+
+% The abstract is required. Note the use of ``utabstract'' instead of
+% ``abstract''! This was necessary to fix a page numbering problem.
+% The abstract heading is generated automatically.
+% Do NOT use \begin{abstract} ... \end{abstract}.
+%
+\utabstract
+\input{chapters/00-abstract}    % this includes the text from `abstract.tex`
+
+\tableofcontents   % Table of Contents will be automatically
+                   % generated and placed here. Required.
+
+\listoftables      % Optional.
+\listoffigures     % Optional.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Actual text starts here.					     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Including external files for each chapter makes this document simpler,
+% makes each chapter simpler, and allows for generating test documents
+% with as few as zero chapters (by commenting out the include statements).
+% Can even change the chapter order by merely interchanging the order
+% of the include statements (something past contributors found helpful in their own
+% dissertations =) ).
+%
+
+\include{chapters/01-introduction}
+
+\include{chapters/02-interpersonal}
+
+\include{chapters/03-probing}
+
+\include{chapters/04-football}
+
+\include{chapters/05-summary}
+
+\appendices
+
+\include{chapters/99-appendix}
+
+\include{chapters/100-appendix}
+
+\bibliographystyle{plainnat}  % Here the bibliography 		     %
+\bibliography{references}        % is inserted.			     %
