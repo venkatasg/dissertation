@@ -19,7 +19,7 @@ Baseline performances for perceived interpersonal emotion detection shows that t
 To summarize the contributions of this chapter, we tackle \textbf{intergroup bias}, a notion of bias rooted in social psychology that applies to all the various differences in the ways that people talk about others in their in-group or out-group. Standard bias tasks in NLP, and the broader goal of debiasing models could thus be set in a more general context. We present the first dataset to study both intergroup membership and emotion, which allows us to analyze both human and model behavior in terms of how the two interact with each other.
 
 \section{Two dimensions of intergroup bias}
-\label{section:twitter-dimensions}
+\label{sec:twitter-dimensions}
 
 Our aim is to build a generalized, data-driven approach towards studying bias situated in \textbf{interpersonal utterances}, which we define as any utterance where there is a target individual being talked about or referred to. Our goal is to model two novel tasks described below; examples are shown in Table~\ref{tab:emoexs}.
 
@@ -29,7 +29,7 @@ Our aim is to build a generalized, data-driven approach towards studying bias si
 
 
 \section{Data}
-\label{section:twitter-data}
+\label{sec:twitter-data}
 
 In our area of focus, we require natural language data which satisfies the following criteria: \emph{(1)} Each utterance must have at least one target about whom the utterance mainly concerns. \emph{(2)} The relationship between the speaker and the target must be inferred based on metadata or other information. Specifically, we are interested in aspects of their social identity that they share or differ on.
 
@@ -114,20 +114,20 @@ To check how accurate their judgements were, we calculate for each annotator the
 Pre-trained language models have been found to learn sentence representations that cluster by domain without supervision~\citep{aharoni-goldberg-2020-unsupervised}. We wished to investigate if any of our annotated properties cluster inherently in reduced representations of the tweets in our data. To obtain unsupervised representations, we use BERTweet~\citep{nguyen_bertweet_2020}, a language model pre-trained on 850M English tweets. We take the 768 dimensional embeddings from the final layer of the \texttt{<s>} token in BERTweet, and dimensionally reduce them to 2 dimensions using UMAP~\citep{sainburg2021parametric}. Figure~\ref{fig:domainclus} shows the distribution of tweets, color coded for interpersonal emotions. While there is a lot of overlap between representations when stratified by emotion, we can see that some emotions that are intuitively opposite, like admiration \& disgust, joy \& sadness are moderately separable. This indicates that interpersonal emotions do define some topic or domain level properties of a tweet.
 
 \section{Modeling the intergroup bias}
-\label{twitter:model}
+\label{sec:twitter-model}
 
 \subsection{Experiments}
 
-We detail our experiments for the two novel tasks discussed in Section~\ref{section:twitter-dimensions}: predicting the IGR (in-group or out-group) given a tweet, and predicting the interpersonal emotion given a tweet. We present baselines for the two tasks separately, and also present a multi-task model to gauge the extent to which knowledge of IGR may help in predicting interpersonal emotion, and vice versa.
+We detail our experiments for the two novel tasks discussed in Section~\ref{sec:twitter-dimensions}: predicting the IGR (in-group or out-group) given a tweet, and predicting the interpersonal emotion given a tweet. We present baselines for the two tasks separately, and also present a multi-task model to gauge the extent to which knowledge of IGR may help in predicting interpersonal emotion, and vice versa.
 
 \subsubsection{Intergroup Relationship}
 
-\paragraph{Sentiment-Rule} Our first baseline is a rule-based one leveraging coarse sentiment: if a tweet's sentiment is predicted to be negative, classify it as out-group; if positive, classify it as in-group; and if neutral, classify it as either in-group or out-group randomly. We use a RoBERTa-Base model finetuned for sentiment on tweets~\citep{barbieri-etal-2020-tweeteval} to extract the sentiment of each tweet in our dataset.
+\paragraph{Sentiment-Rule} Our first baseline is a rule-based one leveraging coarse sentiment: if a tweet's sentiment is predicted to be negative, classify it as out-group; if positive, classify it as in-group; and if neutral, classify it as either in-group or out-group randomly. We use a RoBERTa-Base model fine-tuned for sentiment on tweets~\citep{barbieri-etal-2020-tweeteval} to extract the sentiment of each tweet in our dataset.
     
 \paragraph{NB-SVM} As a second baseline, we build an SVM model that uses Naive-Bayes log-counts ratios of unigrams and bigrams~\citep{wang-manning-2012-baselines}.
 
 
-\paragraph{BERTweet} We use BERTweet~\citep{nguyen_bertweet_2020}, a language model pre-trained on 850M English tweets as our dataset consists purely of English language tweets. A classification head is placed on top of the language model. We also experiment with a version where the language model parameters are frozen, and only the classification head parameters are finetuned (BERTweet-ft).
+\paragraph{BERTweet} We use BERTweet~\citep{nguyen_bertweet_2020}, a language model pre-trained on 850M English tweets as our dataset consists purely of English language tweets. A classification head is placed on top of the language model. We also experiment with a version where the language model parameters are frozen, and only the classification head parameters are fine-tuned (BERTweet-ft).
 
 The input to all models is only the tweet with no other context, and the target masked with a placeholder \texttt{@USER}.
 
@@ -136,7 +136,7 @@ The input to all models is only the tweet with no other context, and the target 
 \paragraph{EmoLex} As a baseline model for interpersonal emotion identification, we rely on EmoLex~\citep{Mohammad2013CROWDSOURCINGAW}. EmoLex consists of 14,182 crowdsourced words associated with the 8 basic Plutchik emotions. Critically, these words appear in emotional contexts, but are not necessarily emotion words themselves. EmoLex counts occurrences of words from its lexicon in an utterance, and assigns a normalized score for each emotion based on occurrence frequency. We consider an emotion to be on, if it's normalized score is $\geq$ 0.001. While EmoLex has issues with regards to its context insensitivity and the social biases built into its lexicon~\citep{zad-etal-2021-hell}, we include it as a baseline to understand to what extent interpersonal emotions can be deduced using a lexicon.
 
 
-\paragraph{BERTweet} We use the same BERTweet model as earlier. We add a dense output layer on top of the pretrained model for the purposes of finetuning, with a sigmoid cross entropy loss function to support multi-label classification. The loss is weighted for each of the 8 emotion labels with the ratio of positive and negative examples to increase precision. If none of the 8 emotion labels are flipped on, we consider that to be the `No Emotion' label, i.e. there is no interpersonal emotion between speaker and target in the tweet. We experiment with a version of the model where the language model parameters are frozen and only the labelling head parameters are finetuned (BERTweet-ft).
+\paragraph{BERTweet} We use the same BERTweet model as earlier. We add a dense output layer on top of the pretrained model for the purposes of finetuning, with a sigmoid cross entropy loss function to support multi-label classification. The loss is weighted for each of the 8 emotion labels with the ratio of positive and negative examples to increase precision. If none of the 8 emotion labels are flipped on, we consider that to be the `No Emotion' label, i.e. there is no interpersonal emotion between speaker and target in the tweet. We experiment with a version of the model where the language model parameters are frozen and only the labelling head parameters are fine-tuned (BERTweet-ft).
 
 \subsubsection{Multi-Task Model}
 
@@ -146,14 +146,14 @@ We use the same BERTweet model as earlier. We add two dense output layers on top
 
 \subsubsection{Implementation}
 We use \texttt{bertweet-base} pretrained embeddings from Huggingface's models hub~\citep{wolf-etal-2020-transformers}.
-All models are finetuned for a maximum of 20 epochs with early stopping. Early-stopping patience for models trained on each task separately is 3. The patience for the multi-task model is set at 5 as the multi-tasking setup led to slower convergence. The learning rate for the classification heads was set at 5e-3 while the learning rate for the internal language model parameters was set at 2e-5. Dropout probabilities in classification heads was set at 0.1. The best performing model before early stopping on validation data was chosen in all cases. We report F1 scores averaged over 3 random restarts for all models, with the standard deviation in parentheses next to the mean.
+All models are fine-tuned for a maximum of 20 epochs with early stopping. Early-stopping patience for models trained on each task separately is 3. The patience for the multi-task model is set at 5 as the multi-tasking setup led to slower convergence. The learning rate for the classification heads was set at 5e-3 while the learning rate for the internal language model parameters was set at 2e-5. Dropout probabilities in classification heads was set at 0.1. The best performing model before early stopping on validation data was chosen in all cases. We report F1 scores averaged over 3 random restarts for all models, with the standard deviation in parentheses next to the mean.
 
 \subsection{Results and Analyses}
 \label{subsec:twitter-results}
 
 \input{tables/inoutresults.tex}
 
-\paragraph{Intergroup relationship} In modeling IGR, we find that \texttt{Sentiment-Rule} performs not much better than chance (Table~\ref{tab:inoutresults}). This underscores one strength of our data, which contains a sizable number of out-group tweets with positive interpersonal emotion attached to them. The \texttt{NB-SVM} model based on unigrams and bigrams performs slightly better, and picks up on some obvious out-group lexical cues like the lemma `bipartisan', as shown in Table~\ref{tab:svm-features}. The \texttt{BERTweet} model performs substantially better, performing over 10 points better than humans. The model, with only the classification head finetuned, leaving the language model parameters intact(\texttt{BERTweet-ft}) performs about 10 points above chance --- indicating that there may be features advantageous towards this task in the vanilla LM itself.
+\paragraph{Intergroup relationship} In modeling IGR, we find that \texttt{Sentiment-Rule} performs not much better than chance (Table~\ref{tab:inoutresults}). This underscores one strength of our data, which contains a sizable number of out-group tweets with positive interpersonal emotion attached to them. The \texttt{NB-SVM} model based on unigrams and bigrams performs slightly better, and picks up on some obvious out-group lexical cues like the lemma `bipartisan', as shown in Table~\ref{tab:svm-features}. The \texttt{BERTweet} model performs substantially better, performing over 10 points better than humans. The model, with only the classification head fine-tuned, leaving the language model parameters intact(\texttt{BERTweet-ft}) performs about 10 points above chance --- indicating that there may be features advantageous towards this task in the vanilla LM itself.
 
 \paragraph{Interpersonal Emotion}
 
