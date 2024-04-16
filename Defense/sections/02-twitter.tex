@@ -1,0 +1,83 @@
+\begin{frame}[c]\frametitle{Intergroup Bias}
+
+
+    \ex.\label{ex:intro-1} \a. \alert{\textbf{Admire}} Chairman @reprichmond’s moral voice on issues of racism and restorative justice. He is \alert{\textbf{a real leader}} for our nation and Congress.
+    \b. Parents and families live in constant fear for their children with food allergies. A worthy \alert{\textbf{bipartisan}} cause - thank you @drphilroe for your \alert{\textbf{leadership}} on this issue.
+
+    \pause\vfill
+
+    These utterances differ along two \textbf{interpersonal} dimensions:
+    
+    \begin{itemize}
+        \item the relationship between speaker and target --- (a) is \textbf{in-group}, (b) is \textbf{out-group}.
+        \item emotion expressed by speaker towards target.
+    \end{itemize}
+
+\end{frame}
+
+
+% \begin{frame}[plain, standout]\frametitle{}
+%     Analyze and model 2 dimensions of intergroup bias --- \textbf{intergroup relationship} and \textbf{interpersonal emotion}.\pause
+% 
+%     \vspace{\baselineskip}
+%     
+%     How does intergroup relationship (in-group vs. out-group) \textbf{interact} with interpersonal emotion?
+% 
+% \end{frame}
+
+% \begin{frame}[c]\frametitle{Data}
+%     \vfill
+%     \begin{itemize}
+%         \itemsep=2em
+%         \item Tweets by members of US Congress which mention one other member. \pause
+%         \item Tweets are either directed in-group or out-group.
+%     \end{itemize}
+%    \pause
+%    \vfill
+%    \centering
+%    {\Large\textbf{3033}} (identity masked) tweets annotated for fine-grained emotion using Plutchik wheel, with \emph{found supervision} for intergroup relationship labels.
+% 
+%    \blfootnote{\cite{plutchik2001nature}}
+%       
+% \end{frame}
+
+\begin{frame}[c]\frametitle{Emotion distribution}
+
+   \pause
+    
+    \begin{figure}
+        \input{figures/emot-dist.tex}
+        \label{fig:emot-dist}
+    \end{figure}
+
+\end{frame}
+
+
+\begin{frame}[c]\frametitle{Tweet Embeddings \& Gold Emotions}
+    
+    \pause
+    
+    \begin{figure}
+        \includegraphics[width=0.93\columnwidth]{bt_emots.png}
+        \caption{\small Tweet embeddings from a language model projected downward to 2 dimensions. Each point is a tweet and \textcolor{orange}{orange} indicates the emotion is present. Observe the separability of clusters of emotions.}
+        \label{fig:emots_bt}
+    \end{figure}
+    \nocite{sainburg2021parametric}
+    
+\end{frame}
+
+\begin{frame}[c]\frametitle{Results}
+    \input{figures/results-all.tex}
+\end{frame}
+
+
+\begin{frame}[c]\frametitle{Takeaways}
+
+    \begin{itemize}
+      \itemsep=\baselineskip
+       \item Interpersonal emotion and intergroup relationship, two dimensions of intergroup bias, co-vary systematically.\pause
+       \item Multitask modeling provides further evidence that the two are intertwined.\pause
+      \item What is the actual \textbf{linguistic variation}? How does it interact with \textbf{situational context}? 
+    \end{itemize}
+
+\end{frame}

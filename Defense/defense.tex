@@ -1,0 +1,76 @@
+\documentclass[11pt, light, aspectratio=1610, biblatex]{practical-presentation}
+
+% Custom packages
+\usepackage{multirow}
+
+% Title stuff
+\title{Modeling Intergroup Bias in Online Conversation}
+\subtitle{Ph.D Defense}
+\date{\today}
+\author{Venkat}
+\institute{The University of Texas at Austin}
+
+% Define block styles for flowchart
+\usetikzlibrary{overlay-beamer-styles, shapes, arrows, arrows.meta, positioning, patterns}
+\tikzstyle{state} = [rectangle, draw, fill=TolSand!80, text centered, rounded corners, minimum height=2em]
+\tikzstyle{text-input} = [rectangle, draw, fill=TolCyan!60, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -{Latex[length=3mm]}, line width=1pt]
+\tikzstyle{cloud} = [draw, ellipse,fill=TolRose!70, node distance=0.5em,minimum height=1em]
+\tikzset{
+    invisible/.style={opacity=0},
+    visible on/.style={alt={#1{}{invisible}}},
+    alt/.code args={<#1>#2#3}{%
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+    },
+  }
+  
+
+\begin{document}
+\maketitle
+
+{
+\metroset{sectionpage=none}
+\section{Introduction}
+\input{sections/01-intro.tex}
+}
+
+{
+\metroset{sectionpage=none}
+\section{Twitter Politics}
+\input{sections/02-twitter.tex}
+}
+
+{
+\metroset{sectionpage=none}
+\section{Probing}
+\input{sections/03-probing.tex}
+}
+
+\section{Football fandom on Reddit}
+\input{sections/04-football.tex}
+
+{
+\metroset{sectionpage=none}
+\section{Discussion \& Conclusion}
+\input{sections/05-discussion.tex}
+}
+
+{
+\metroset{numbering=none}
+\section*{references}
+\begin{frame}[allowframebreaks, noframenumbering]{References}
+\printbibliography[heading=none]
+\end{frame}
+}
+
+% Backup slides go here
+\makeatletter
+\renewcommand{\ExLBr}{\nfbc}
+\renewcommand{\ExRBr}{\nfbc}
+\makeatother
+
+\appendix
+\input{sections/99-appendix.tex}
+
+
+\end{document}

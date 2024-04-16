@@ -1,0 +1,15 @@
+\begin{table}[t]
+    \centering
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Model} & \textbf{F1} & \textbf{WER} & \textbf{GLEU} \\ \midrule
+        \texttt{fewshot} & 56.9 & 5.5 & 88.5  \\ \midrule
+        \texttt{fewshot+instruct} & 54.0 & 5.2 & 88.1  \\ \midrule
+        \texttt{fewshot+cot} & 54.5 & 5.3 &  88.1  \\ \midrule
+        \texttt{fewshot+instruct+cot} & 60.0 & \textbf{4.9} & \textbf{89.8}  \\ \midrule
+        \texttt{gpt-3.5-turbo} & 48.4 & 16.2 & 72.6  \\ \midrule
+        \texttt{gpt-4} & \textbf{60.6} & 7.4 & 86.4  \\ \bottomrule
+    \end{tabular}
+    \caption{micro-F1 score (higher is better) over all tags, WER (lower is better) and GLEU scores(higher is better) on test split for all models.}
+    \label{tab:results-football}
+\end{table}
