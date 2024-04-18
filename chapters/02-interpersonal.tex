@@ -18,7 +18,10 @@ Baseline performances for perceived interpersonal emotion detection shows that t
 
 To summarize the contributions of this chapter, we tackle \textbf{intergroup bias}, a notion of bias rooted in social psychology that applies to all the various differences in the ways that people talk about others in their in-group or out-group. Standard bias tasks in NLP, and the broader goal of debiasing models could thus be set in a more general context. We present the first dataset to study both intergroup membership and emotion, which allows us to analyze both human and model behavior in terms of how the two interact with each other.
 
-\section{Two dimensions of intergroup bias}
+\section{How to model intergroup bias?}
+\label{sec:twitter-howto}
+
+\subsection{Two dimensions of intergroup bias}
 \label{sec:twitter-dimensions}
 
 Our aim is to build a generalized, data-driven approach towards studying bias situated in \textbf{interpersonal utterances}, which we define as any utterance where there is a target individual being talked about or referred to. Our goal is to model two novel tasks described below; examples are shown in Table~\ref{tab:emoexs}.
@@ -27,16 +30,12 @@ Our aim is to build a generalized, data-driven approach towards studying bias si
 
 \paragraph{Interpersonal Emotion} We define \emph{perceived} interpersonal emotion as the emotion expressed by a speaker $s$ \emph{towards, or in connection with} the target $t$ of the utterance $u$, as perceived by a reader.  We use the Plutchik wheel of emotions, which is widely adopted in the community, as the basis of our emotion taxionomy~\cite{plutchik2001nature}; we use the 8 fundamental  emotions (\emph{admiration, anger, disgust, fear, interest, joy, sadness, surprise}) instead of the full 24 emotions in the wheel due to data sparsity. Interpersonal emotions may be different, or a subset of, emotion for the whole of an utterance, as illustrated in rows 2, 3 and 4 of Table~\ref{tab:emoexs}. Given an utterance $u$ written by an individual $s$ with target $t$, the interpersonal emotion detection task identifies the perceived emotion of $s$ towards the target $t$.
 
-
-\section{Data}
-\label{sec:twitter-data}
+\subsection{Data Sources and Preprocessing}
+\label{subsec:twitter-datasources}
 
 In our area of focus, we require natural language data which satisfies the following criteria: \emph{(1)} Each utterance must have at least one target about whom the utterance mainly concerns. \emph{(2)} The relationship between the speaker and the target must be inferred based on metadata or other information. Specifically, we are interested in aspects of their social identity that they share or differ on.
 
 The dataset we collect comes from tweets by members of US Congress where other members are mentioned in the same tweet. We use this as a convenient testbed: each member's group affiliation (i.e., their party identity) is public, thus we can easily know whether the speaker is tweeting to a target in their own party or not.\footnote{For simplicity, we do not consider other factors such as the home state of a congress member.} In other words, this dataset gives us ``found supervision'' for our first task of IGR prediction. For our second task, we annotate a subset of these tweets for perceived interpersonal emotion; this is, to our knowledge, the first dataset dedicated to interpersonal emotion.
-
-\subsection{Data Sources and Preprocessing}
-\label{subsec:twitter-datasources}
 
 Social media text like tweets offer a fertile ground for our study. A focus on tweets with \emph{mentions} in them satisfies our first criterion -- people generally use mentions to say something about or towards another individual on twitter. Tweets by members of US Congress are a matter of public record, and we can infer the social relationship (in terms of party affiliation) between speaker and target using publicly available information. We prioritize working with a dataset of tweets by members of US Congress (downloaded using the Twitter API) between 2010 and 2021, spanning two presidencies, during which both parties held power in Congress. We filter these tweets to exclude retweets, and include those tweets that mention \emph{at most} one other member of Congress whose party affiliation is known. We believe these 2 assumptions are sufficient to arrive at a dataset of tweets where the speaker is talking towards/about \emph{one} target. Thus, we restrict ourselves to two social groups in this sphere --- Democrat and Republican parties in the US. We sample an equal number of in-group and out-group tweets from a large sample consisting of all tweets by members of Congress. Apart from years 2010--2012 and 2021 which contained fewer tweets due to sparsity issues, we sampled at least 300 tweets each year.
 
@@ -109,9 +108,7 @@ Concretely, we investigate if human annotators were capable of accurately perfor
 To check how accurate their judgements were, we calculate for each annotator their F1 score against our ``gold'' in/out group labels. Their F1 scores on these 50 tweets were 0.67 and 0.63, which as we will discuss in Section~\ref{subsec:twitter-results}, only match simple baselines of supervised systems. Annotators comments indicate that they overly relied on the sentiment of tweets to make the classification --- positive sentiment means in-group and negative sentiment means out-group. While negative emotions are over-represented in out-group situations as Table~\ref{tab:inoutdist} shows, our dataset contains a substantial presence of out-group tweets with positive interpersonal emotions as well. Annotators also noticed some lexical cues like `bipartisan' that are indicative of out-group tweets.
 
 
-\paragraph{Do pre-trained representations capture interpersonal emotions?}
-
-Pre-trained language models have been found to learn sentence representations that cluster by domain without supervision~\citep{aharoni-goldberg-2020-unsupervised}. We wished to investigate if any of our annotated properties cluster inherently in reduced representations of the tweets in our data. To obtain unsupervised representations, we use BERTweet~\citep{nguyen_bertweet_2020}, a language model pre-trained on 850M English tweets. We take the 768 dimensional embeddings from the final layer of the \texttt{<s>} token in BERTweet, and dimensionally reduce them to 2 dimensions using UMAP~\citep{sainburg2021parametric}. Figure~\ref{fig:domainclus} shows the distribution of tweets, color coded for interpersonal emotions. While there is a lot of overlap between representations when stratified by emotion, we can see that some emotions that are intuitively opposite, like admiration \& disgust, joy \& sadness are moderately separable. This indicates that interpersonal emotions do define some topic or domain level properties of a tweet.
+\paragraph{Pre-trained representations capture interpersonal emotions} Pre-trained language models have been found to learn sentence representations that cluster by domain without supervision~\citep{aharoni-goldberg-2020-unsupervised}. We wished to investigate if any of our annotated properties cluster inherently in reduced representations of the tweets in our data. We use unsupervised representations from BERTweet~\citep{nguyen_bertweet_2020}, a language model pre-trained on 850M English tweets. We take the 768 dimensional embeddings from the final layer of the \texttt{<s>} token in BERTweet, and dimensionally reduce them to 2 dimensions using UMAP~\citep{sainburg2021parametric}. Figure~\ref{fig:domainclus} shows the distribution of tweets, color coded for interpersonal emotions. While there is a lot of overlap between representations when stratified by emotion, we can see that some emotions that are intuitively opposite, like admiration \& disgust, joy \& sadness are moderately separable. This indicates that interpersonal emotions do define some topic or domain level properties of a tweet.
 
 \section{Modeling the intergroup bias}
 \label{sec:twitter-model}
@@ -145,8 +142,7 @@ In \textsection~\ref{sec:twitter-prelim}, we observed that the emotions anger an
 We use the same BERTweet model as earlier. We add two dense output layers on top of the pretrained model, one for classifying IGR and another for labelling interpersonal emotion. Both heads share the same parameters below. These are trained with same loss as earlier individual models. The model alternates between finetuning for group relationship and emotion over every training item.
 
 \subsubsection{Implementation}
-We use \texttt{bertweet-base} pretrained embeddings from Huggingface's models hub~\citep{wolf-etal-2020-transformers}.
-All models are fine-tuned for a maximum of 20 epochs with early stopping. Early-stopping patience for models trained on each task separately is 3. The patience for the multi-task model is set at 5 as the multi-tasking setup led to slower convergence. The learning rate for the classification heads was set at 5e-3 while the learning rate for the internal language model parameters was set at 2e-5. Dropout probabilities in classification heads was set at 0.1. The best performing model before early stopping on validation data was chosen in all cases. We report F1 scores averaged over 3 random restarts for all models, with the standard deviation in parentheses next to the mean.
+We use \texttt{bertweet-base} pretrained embeddings from Huggingface~\citep{wolf-etal-2020-transformers}. All models are fine-tuned for a maximum of 20 epochs with early stopping. Early-stopping patience for models trained on each task separately is 3. The patience for the multi-task model is set at 5 as the multi-tasking setup led to slower convergence. The learning rate for the classification heads was set at 5e-3 while the learning rate for the internal language model parameters was set at 2e-5. Dropout probabilities in classification heads was set at 0.1. The best performing model before early stopping on validation data was chosen in all cases. We report F1 scores averaged over 3 random restarts for all models, with the standard deviation in parentheses next to the mean.
 
 \subsection{Results and Analyses}
 \label{subsec:twitter-results}

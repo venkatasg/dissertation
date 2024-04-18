@@ -6,23 +6,23 @@ For instruction fine-tuning of Flan-T5, the following instructional prefix detai
 \begin{verbatim}
 Tag references to entities as in-group ([IN]), out-group ([OUT]) 
 or other ([OTHER]) in live, online sports comments during NFL 
-games. The input is the comment, the in-group team the commenter 
-supports, the out-group opponent team, and the win probability 
-for the in-group at the time of the comment. The win probability 
-is the probability of the in-group winning the game at the 
-time of the comment - if the win probability is high, the 
-in-group team is probably doing well and going to win. Using 
-knowledge of American football and contextual language 
-understanding, identify words and phrases denoting entities 
-(players, teams, city names, sub-groups within the team) that 
-refer to the in-group ([IN] - team the commenter supports), 
+games. The input is the comment, the in-group team the 
+commenter supports, the out-group opponent team, and the win 
+probability for the in-group at the time of the comment. The 
+win probability is the probability of the in-group winning 
+the game at the time of the comment - if the win probability 
+is high, the in-group team is probably doing well and going 
+to win. Using knowledge of American football and contextual 
+language understanding, identify words and phrases denoting 
+entities (players, teams, city names, sub-groups within the team) 
+that refer to the in-group ([IN] - team the commenter supports), 
 out-group ([OUT] - the opponent) or other teams ([OTHER] - some 
 other team in the NFL that is not the in-group or the opponent), 
 with respect to the commenter. Return the TARGET comment itself 
-with relevant words/phrases replaced with the respective tags ([IN], 
-[OUT] or [OTHER]), the list of words/phrases that are to be tagged 
-(REF_EXPRESSIONS), and an EXPLANATION justifying the choice of 
-REF_EXPRESSIONS in your final output.
+with relevant words/phrases replaced with the respective tags 
+([IN], [OUT] or [OTHER]), the list of words/phrases that are to 
+be tagged (REF_EXPRESSIONS), and an EXPLANATION justifying the 
+choice of REF_EXPRESSIONS in your final output.
 
 Each sentence in a comment is separated by a [SENT] token. 
 Sometimes a sentence in the comment will be about the 
@@ -60,11 +60,11 @@ WIN PROBABILITY: 49.21%
 TARGET: [SENT] Hasn’t really been [IN] . [SENT] [IN] have been 
 missing a lot of easy catches .
 REF_EXPRESSIONS: ['him', 'Receivers']
-EXPLANATION: The second sentence is complaining about the receivers 
-missing a lot of catches, thus absolving another player of some blame, 
-which is something fans would only do for the in-group team they 
-support. Thus 'him' in first sentence, and 'Receivers' in second 
-sentence should be tagged with [IN].
+EXPLANATION: The second sentence is complaining about the 
+receivers missing a lot of catches, thus absolving another player 
+of some blame, which is something fans would only do for the 
+in-group team they support. Thus 'him' in first sentence, and 
+'Receivers' in second sentence should be tagged with [IN].
 
 COMMENT: [SENT] Cards and rams are gonna be in the post-season 
 regardless, so I don't really care about them losing unless they 
@@ -72,9 +72,9 @@ play us.
 IN-GROUP: 49ers
 OUT-GROUP: Jaguars
 WIN PROBABILITY: 99.71%
-TARGET: [SENT] [OTHER] and [OTHER] are gonna be in the post-season 
-regardless, so I don't really care about [OTHER] losing unless they 
-play [IN].
+TARGET: [SENT] [OTHER] and [OTHER] are gonna be in the 
+post-season regardless, so I don't really care about [OTHER] 
+losing unless they play [IN].
 REF_EXPRESSIONS: ['Cards', 'rams', 'them']
 EXPLANATION: The game is between the 49ers and Jaguars, while the 
 words 'Cards' and 'rams' refers to other teams in the NFL. Thus 
@@ -88,18 +88,18 @@ OUT-GROUP: Eagles
 WIN PROBABILITY: 4%
 TARGET: [SENT] How are [IN] this shit on defense
 REF_EXPRESSIONS: ['we']
-EXPLANATION: 'we' here, and almost always, refers to the in-group since 
-they don't like their team's defense, which is reflected in the low win 
-probability. 'we' should therefore be tagged with [IN] since it refers 
-to in-group.
+EXPLANATION: 'we' here, and almost always, refers to the in-group 
+since they don't like their team's defense, which is reflected in 
+the low win probability. 'we' should therefore be tagged with [IN] 
+since it refers to in-group.
 
-COMMENT: [SENT] The chiefs got straight fucked with that Herbert INT 
-getting called dead . [SENT] Suck it , KC !	
+COMMENT: [SENT] The chiefs got straight fucked with that Herbert 
+INT getting called dead . [SENT] Suck it , KC !	
 IN-GROUP: Chargers
 OUT-GROUP: Chiefs
 WIN PROBABILITY: 43.2%
-TARGET: [SENT] [OUT] got straight fucked with that [IN] INT getting 
-called dead . [SENT] Suck it , [OUT] !
+TARGET: [SENT] [OUT] got straight fucked with that [IN] INT 
+getting called dead . [SENT] Suck it , [OUT] !
 REF_EXPRESSIONS: ['The chiefs', 'Herbert', 'KC']
 EXPLANATION: This is a game between the Chiefs and the Chargers, and 
 the commenter is a supporter of the Chiefs, so 'the chiefs' in the 
