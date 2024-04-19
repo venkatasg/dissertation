@@ -144,10 +144,29 @@ In case it is impossible to verify an explicit or implicit reference, annotators
 
 \subsubsection{Annotation Results \& Analysis}
 
-\paragraph{Inter-annotator agreement} To evaluate the reliability of collecting annotations for intergroup labels using the protocol above, we ran a small pilot study over a sample of 100 comments from the gold dataset. 3 annotators (undergraduates) were recruited to perform annotations, and presented with the same annotation protocol as above. We found exact-match agreement of $0.65$ over these annotations. Among disagreements, a third were implicit sentential references in the gold dataset. \textbf{More agreement metrics need to be calculated, I'm still collecting data from Jessy's students}
+To understand the annotation process better, and understand individual variation in what `counts' as a reference to the in-group and out-group to be tagged, we recruited annotators for a crowd-sourced annotation experiment. This annotation experiment has two goals --- gauge inter-annotator agreement among crowd annotators and sources of disagreement, and identify  who operate under stricter constraints of time (and impoverished knowledge of the task and dataset) 
 
-\paragraph{Disagreement or diversity?}
+\paragraph{Inter-annotator agreement} To evaluate the reliability of collecting annotations for intergroup labels using the protocol above, we ran a small pilot study over a sample of 100 comments from the gold dataset. 3 annotators (undergraduates) were recruited to perform annotations, and presented with the same annotation protocol that I used to construct the gold annotation dataset. Average Fleiss $\Kappa$ among these 3 annotators is  0.65, indicating moderate agreement.
 
+In addition to the inter-annotator score, by counting exact-matches and weighting partial matches between individual crowd annotators and gold annotation, we calculate a score of $0.71 \pm 0.03$. This gives a human upper bound for performance on this task, and characterizes its inherent subjectivity and difficulty.
+
+\paragraph{Disagreement or diversity?} Inter-annotator agreement among annotators, as well as the averaged accuracy of crowd-annotators against gold annotations, were both found to be in the moderate-to-high range of values. While this lends credence to the annotation protocol and the task design, looking at the source of disagreements can give us insights into the nature of the task itself, as well as why differences in judgements of intergroup affiliation can come down to annotator biases or judgement given context~\citep{atwell-etal-2022-role}, as well as implicit thresholding on what counts as a `reference', as these examples demonstrate:
+
+\ex. \label{ex:disagree} \a.\label{ex:disagree-a}\textellipsis of the assorted ballparks and stadiums and concert venues I've been to , \textbf{Lambeau} has the second worst bathrooms .
+    \b. \label{ex:disagree-b} Can’t do that against \textbf{an offense} this good.
+    \b. \label{ex:disagree-c} Let ’s go baby
+
+\emph{Lambeau} in \ref{ex:disagree-a} was judged to be a reference to the out-group in the context of this utterance --- which was from the Colts subreddit in a game against the Green Bay Packers. However, to disambiguate this reference, annotators would need to know (or search to discover) that Lambeau Park is the stadium in which the Green Bay Packers play, and furthermore make a judgement call that this constitutes a relevant intergroup reference. As the expert annotator, I judged that it was a reference to the out-group because I discovered through search the relevance of \emph{Lambeau} to the out-group. 
+
+In addition to requiring time and multiple steps of search and reasoning on the part of the annotator, the disagreements between annotators (and between annotators and gold annotation) illustrate variations in the implicit threshold of what constitutes an intergroup reference. For instance, \emph{an offense} in \ref{ex:disagree-b} was judged by some annotators to refer to the out-group in context (the in-group was losing), however the generic nature of the referent lead some annotators to judge that this was an overall statement about the game, rather than a reference in of itself. Similarly with \ref{ex:disagree-c}, some annotators judged the comment as a whole to be about the in-group (boosting or building them up) based on context and commonsense reasoning; However, other annotators judged this to be an expression of excitement by the fan, and not an obvious reference. 
+
+\paragraph{Is disagreement a signal of intergroup bias?} Overall, these findings and examples paint a complex picture of how to reconcile agreement between annotators, and disagreements that nevertheless provide reliable signal towards the intergroup bias. Whether or not examples in \ref{ex:disagree} contain references to the in/out-group is not simply a consequence of the difficulty of our task, or the inability for annotators to transparently describe the mental state of commenters (which we also observed annotating for interpersonal emotion as described in \textsection~\ref{subsec:twitter-annotation}). Rather, we need to analyze them as possibly another subtle influence of the intergroup bias itself --- demonstrated by posing the question as to why annotators chose the forms in \ref{ex:disagree} rather than in \ref{ex:disagree-alt}, which seemingly convey the same meaning, and would be uncontroversial in annotation:
+
+\ex. \label{ex:disagree-alt} \a. \textellipsis of the assorted ballparks and stadiums and concert venues I've been to , \textbf{the Packer's} stadium has the second worst bathrooms .
+    \b. Can’t do that against \textbf{the Packers} offense this good.
+    \b. Let's go \textbf{Packers}!
+
+The intergroup bias can observed to lead to subtle shifts in reference form, as we will see in forthcoming sections. However, future work needs to look into embracing the inherent annotation diversity in this task with grounded context, which can boost model performance on involved tasks that require linguistic and commonsense reasoning over world knowledge and context~\citep{atwell-etal-2022-role}.
 
 \subsection{Qualitative Analysis \& Trends}
 \label{subsec:football-trends}
@@ -157,7 +176,7 @@ The annotated dataset enables us to study qualitative trends, that will guide qu
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/test-trends.png}
-    \caption{Frequency of any-group, in-group and null references over comments that fall over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show some noisy trends.}
+    \caption{Frequency of any-group, in-group and null references in comments that fall in 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show some noisy trends.}
     \label{fig:test-trends}
 \end{figure}
 
