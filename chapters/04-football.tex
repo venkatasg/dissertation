@@ -143,6 +143,7 @@ In case it is impossible to verify an explicit or implicit reference, annotators
 \input{tables/test-data-stats.tex}
 
 \subsubsection{Annotation Results \& Analysis}
+\label{subsubsec:annotation-analysis}
 
 To understand the annotation process better, and understand individual variation in what `counts' as a reference to the in-group and out-group to be tagged, we recruited annotators for a crowd-sourced annotation experiment. This annotation experiment has two goals --- gauge inter-annotator agreement among crowd annotators and sources of disagreement, and identify  who operate under stricter constraints of time (and impoverished knowledge of the task and dataset) 
 
@@ -194,17 +195,17 @@ The taxonomy above is ordered ad-hoc in order of increasing coverage of the whol
 \paragraph{Trends} Within this expertly annotated dataset, we can observe two clear trends by plotting the frequency of a feature of interest over comments that fall within a win probability (WP) window. Figure~\ref{fig:test-trends} plots the frequency of any reference (in-group, out-group or other), in-group references, and null references over all WP probabilities:
 
 \begin{enumerate}
-    \item References to the in-group, and references to any group overall, clearly go down with win probability.
-    \item Null references steadily with increasing WP for the in-group.
+    \item References to the in-group, and references to any group overall, clearly go down with WP.
+    \item Null references increase steadily with WP.
 \end{enumerate}
 
-The steady increase in number of null references in higher WP windows is interesting, and seem to be attributable to a combination of euphoria at being close to victory, and a tendency to abstract away from specific gametime events to be terse and celebrate the victory, as the following examples show.
+The steady increase in number of null references in higher WP windows is interesting, and seem to be attributable to a combination of excitement at being close to victory, and a tendency to abstract away from specific events to be terse and celebrate the victory, as the following examples show.
 
 \ex. \a. I can't stop smiling!
      \b. Absolute domination!
      \b. ITS COMING BACK!
 
-While the trends observed in this section are not statistically or practically significant (the slopes in Figure~\ref{fig:test-trends} are small), this can be attributed to the small sample size of analysis. Our expert annotated dataset is only 1500 comments. The intergroup bias is a social phenomenon, and like many social phenomenon, we can make clear inferences at scale (CITATION). Obtaining human annotated data at scale would be prohibitively hard and expensive in this setting --- thus, we turn to fine-tuning Large Language Models, to automate this task, thus allowing us make inferences about trends in the intergroup bias as a function of WP. The next section will also give us insights into the difficulty of training large machine learning models on the difficult task of \emph{tagging} words and phrases in comments with their intergroup referential tags.
+While the trends observed in this section are not statistically or practically significant (the slopes in Figure~\ref{fig:test-trends} are small), this can be attributed to the small sample size of analysis. Our expert annotated dataset is only 1500 comments. The intergroup bias is a social phenomenon, and like many social phenomenon, we can make clear inferences at scale. Obtaining human annotated data at scale would be prohibitively hard and expensive in this setting --- thus, we turn to fine-tuning Large Language Models, to automate this task, thus allowing us make inferences about trends in the intergroup bias as a function of WP. The next section will also give us insights into the difficulty of training large machine learning models on the difficult task of \emph{tagging} words and phrases in comments with their intergroup referential tags.
 
 \section{Modeling the Intergroup bias with LLMs}
 \label{sec:football-models}
@@ -285,7 +286,6 @@ To evaluate the performance of a model on the test dataset, we employ two forms 
     \item We calculate two automated metrics that compare two sequences and generates the --- GLEU score~\citep{napoles-EtAl:2015:ACL-IJCNLP} and word error rate (WER)~\citep{woodard1982}. The former was designed for evaluating grammatical error correction, while the latter is analogous to edit distance. Both metrics are suitable for our task, where we want to penalize large amounts of differences between model generated tagged comments and the gold comments, while copying over most of the input comment.
 \end{itemize}
 
-
 \subsection{Results}
 
 \input{tables/results-football.tex}
@@ -315,20 +315,20 @@ For the following analyses, we sampled over 223,680 comments from game threads, 
 \begin{figure}[t]
     \centering
     \includegraphics[width=\linewidth]{figures/trends-1.png}
-    \caption{Frequency of any-group, in-group and null references over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show clear linear trends.}
+    \caption{Frequency of any-group and null references over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show clear linear trends.}
     \label{fig:trends-1}
 \end{figure}
 
-Figure~\ref{fig:trends-1} plots the frequency of occurrence of in-group, any-group and no references within each win probability window. Within, each win probability window, we count the occurrence of a variable of interest, and normalize it by the number of comments within that window. As the figure shows, there is a steady decline in the frequency of references overall, and in-group references (which constitute the bulk of references as established). The trend is surprisingly linear in its behavior, with outliers at the lowest, and highest win probability windows, where deviations in linguistic behavior by commenters might be expected, due to the certainty of winning and losing respectively.
+Figure~\ref{fig:trends-1} plots the frequency of occurrence of references to any group(\texttt{any\_ref}) and null references (\texttt{none}) over all WP from 0 to 100. Within each win probability window of 5 percentage points, we count the occurrence of a variable of interest, and normalize it by the number of comments within that window. As the figure shows, there is a steady decline in the frequency of references overall, and a steady increase in the frequency of null references. The trend is surprisingly linear in its behavior, with outliers at the lowest, and highest win probability windows, where deviations in linguistic behavior by commenters might be expected, due to the certainty of winning and losing respectively.
 
 \begin{figure}[t]
      \centering
      \includegraphics[width=\linewidth]{figures/trends-2.png}
-     \caption{Frequency of references to the in-group using \emph{we/us} or \emph{they/them} over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show clear linear trends.}
+     \caption{Normalized frequency of references to the in-group, in-group using \emph{we/us} and out-group over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show clear linear trends.}
      \label{fig:trends-2}
  \end{figure}
 
-Concurrent with the decrease in references is the increase in comments with no references to any relevant group. A cursory analysis of high WP(see~\ref{ex:high-wp}) and low WP(see~\ref{ex:low-wp}) comments with no references reveals an obvious increase in positive sentiment, but also increased terseness closer to victory. Comparing the length of comments, we find a very small but significant ($\rho=-0.05$ ($p<0.005$)) negative correlation between length of comment and the win probability.
+A cursory analysis of high WP(see~\ref{ex:high-wp}) and low WP(see~\ref{ex:low-wp}) comments with no references reveals an obvious increase in positive sentiment, but also increased terseness closer to victory. Comparing the length of comments, we find a very small but significant ($\rho=-0.05$ ($p<0.005$)) negative correlation between length of comment and the win probability.
 
 \ex.\label{ex:high-wp} \a. HOLY SHIT 
      \b. DO NOT TAKE YOUR FOOT OFF THE GAS
@@ -338,21 +338,33 @@ Concurrent with the decrease in references is the increase in comments with no r
      \b. Yeah I ’m done for tonight
      \b. Bruh ...
 
-\input{tables/slopes.tex}
+\begin{figure}[t]
+          \centering
+          \includegraphics[width=\linewidth]{figures/trends-3.png}
+          \caption{Normalized frequency of references to the in-group and out-group solely using names or \emph{they/them} over all 5\% WP windows from 0 to 100. A simple regression line with 95\% CI is fit separately for each feature to show clear linear trends.}
+          \label{fig:trends-2}
+      \end{figure}
 
 Overall, this seems concurrent with the idea that the better the state-of-the-world is for the in-group, the less likely commenters are to refer to the in-group in any form. Commenters are more likely to abstract away from referring to the in-group (or out-group) using explicit or implicit mentions, towards general expressions of sentiment or descriptions of the game itself (like in ~\ref{ex:high-wp}).
     
-Figure~\ref{fig:trends-2} plots the frequency of references to the in-group using \emph{we/us} and \emph{they/them} (and their inflections) over all WP. While the frequency of \emph{we/us} decreases in line with overall in-group reference frequency, the slope is much lower. Table~\ref{tab:slopes} shows the slopes of a linear regression fit between the feature of interest and WP, showing that \emph{we/us} reduces at half the rate of overall in-group references. The prevelance of referring to the in-group using \emph{they/them} is much lower overall, and also goes down with increased WP as expected.
+\paragraph{The in-group sticks together in solidarity} Figure~\ref{fig:trends-2} plots the frequency of references to the in-group and out-group, normalized by the number of comments that contain any reference at all --- this is done to understand variations between in-group and out-group references as reference frequency goes down overall. Even controlling for the overall decline, we notice a marginal decline in (normalized) in-group reference frequency, and a steady increase in (normalized) out-group reference frequency. The more likely the in-group is to win, references to the in-group go down while references to the out-group go up.
+
+\ex.\label{ex:we-low-wp} \a. If \textbf{we} get a stop here and a touchdown on the next drive it ’s a ballgame let ’s fucking go .
+     \b.  wish \textbf{we} could fire fangio this week\textellipsis
+
+Figure~\ref{fig:trends-2} also plots references to the in-group using first-person plural pronouns (labelled \emph{we}), while Figure~\ref{fig:trends-3} plots relative frequency of reference to the in-group or out-group using names (\texttt{in-names} and \texttt{out-names}) or third-person plural pronouns (\texttt{they\_in} and \texttt{they\_out}). Overall, these paint a complex picture. Pronouns like \emph{we} and \emph{they} carry a lot of affect, and are associated with inclusivity and othering. Commenters are more likely to use \emph{we} in a losing scenario, and use it more often than in a winning scenario to build solidarity and hope, as well as offer criticism, as examples in \ref{ex:we-low-wp} show. As WP increases, references to the out-group using all forms goes up 
 
 \section{Discussion \& Conclusion}
 \label{sec:football-conclusion}
 
-There are two takeaways from the application of our best fine-tuned model on a large, representative sample of our dataset. First, is the \textbf{linear and inverse} relationship between the frequency of references to the in-group and the state-of-the-world (win probability --- WP). Second, and concomitant with the previous finding, is the relatively stable association between frequency of out-group references and WP, and the \textbf{marked increase} in non-referential comments with increases in WP. We shall discuss both of these findings and their implications towards the intergroup bias in turn.
+\input{tables/slopes.tex}
+
+There are two takeaways from the application of our best fine-tuned model on a large, representative sample of our dataset. First, is the \textbf{linear and inverse} relationship between the frequency of references to the in-group and the state-of-the-world (win probability --- WP). Table~\ref{tab:slopes} showcases the slope and percentage of variation explained by a linear fit over only WP, reinforcing this finding. Second, and concomitant with the previous finding, is the relatively stable association between frequency of out-group references and WP, and the \textbf{marked increase} in non-referential comments with increases in WP. We shall discuss both of these findings and their implications towards the intergroup bias in turn.
 
 \paragraph{In-group} Figures~\ref{fig:trends-1} and \ref{fig:trends-2} display a remarkable linear relationship between two parameters that are operationalizations of the different aspects of the world. What does the decrease mean in context of this domain, and what is the significance of its linearity? This finding adds further evidence that not only is WP an accurate description of a complex state of affairs in football games, it is sufficient to capture a large amount of variation in linguistic behavior. In addition to being well calibrated as a machine learning model as described in ~\citet{baldwin2021nflfastr}, these results show that it is also well calibrated to \textbf{human appraisals of the state-of-the-world}. Through well devised `scoreboards' based on non-linguistic variables of interest, this gives us hope that similar simplified scores can be calculated to describe the state-of-the-world in non-sporting domains, towards replicating these findings in conversation more generally.
 
 The trends observed with in-group references versus WP also add to the subtle ways we perpetuate bias in our linguistic behavior, especially in this case towards \textbf{in-group preservation}~\citep{maass_linguistic_1999}. While commenters are more than willing to criticize the in-group across WP, the self-protective instinct is evident in the way they choose to refer to the in-group using \emph{we/us} rather than \emph{they/them}, or to not refer to the in-group at all, abstracting away to talking about their sentiment or description of the events. How commenters choose the form of reference to an in-group constitutes just as subtle a bias as their choice of predicate.
 
-\paragraph{Out-group} Regarding the out-group (and other), reference frequency remains stable over all WP --- commenters also refer to the out-group explicitly or implicitly much less. References to the out-group are most frequent at the lowest/highest WP (corresponding to the end of a game when win/loss is certain) and relatively stable throughout otherwise (see Appendix~\ref{appendix:figs} for plots). This is similar to our findings in Chapter~\ref{chapter:twitter}, where there was a clear bias in positive emotions towards the in-group, revealing a drawback of studying intergroup bias on naturally occurring language (as opposed to elicited utterances generally in the LIB) at scale --- speakers prefer to talk about their in-group overall, and with negative affect when they do talk about the out-group.
+\paragraph{Out-group} Regarding the out-group (and other), normalized reference frequency increases steadily --- however commenters also refer to the out-group explicitly or implicitly much less. This is similar to our findings in Chapter~\ref{chapter:twitter}, where there was a clear bias in positive emotions towards the in-group, revealing a drawback of studying intergroup bias on naturally occurring language (as opposed to elicited utterances generally in the LIB) at scale --- speakers prefer to talk about their in-group overall, and with negative affect when they do talk about the out-group. References to the out-group are most frequent at the lowest/highest WP (corresponding to the end of a game when win/loss is certain) with a linear increase in-between. 
 
-\paragraph{Modeling Improvements} As discussed in the previous section, there is room for improvement on large-scale tagging of referential expressions, especially out-group references. This doesn't detract from our analysis in the previous section --- the model's performance isn't correlated with WP, and a significant reason for the low performance of our model can be attributed to size. GPT-4 outperforms our model on recall over out-group references, and a lot of its gains come courtesy of its size. A new generation of open LLMs including Mistral~\citep{jiang2023mistral}, Gemma~\cite{geminiteam2023gemini}, and OLMo~\citep{Groeneveld2023OLMo} provide competitive performance on benchmarks to GPT-4, and exhibit complex reasoning and general knowledge of events and entities --- crucial towards performance on our tagging task. These need to be explored for further gains on out-group tagging performance.
+\paragraph{Modeling Improvements} As discussed in the previous section, there is room for improvement on large-scale tagging of referential expressions, especially out-group references. This doesn't detract from our analysis in the previous section --- the model's performance isn't correlated with WP, and a significant reason for the low performance of our model can be attributed to size. GPT-4 outperforms our model on recall over out-group references, and a lot of its gains come courtesy of its size. A new generation of open LLMs including Mistral~\citep{jiang2023mistral}, Gemma~\cite{geminiteam2023gemini}, and OLMo~\citep{Groeneveld2023OLMo} provide competitive performance on benchmarks to GPT-4, and exhibit complex reasoning and general knowledge of events and entities --- crucial towards performance on our tagging task. These need to be explored for further gains on out-group tagging performance. Furthermore, incorporating annotator confidence into modeling directly can boost performance~\citep{atwell-etal-2022-role}, as well as help the model learn reliable signals from intergroup bias as we observed in \textsection~\ref{subsubsec:annotation-analysis}.
