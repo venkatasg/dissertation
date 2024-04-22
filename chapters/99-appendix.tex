@@ -4,18 +4,19 @@
 For instruction fine-tuning of Flan-T5, the following instructional prefix detailing the tagging process was fed to each datapoint to be tagged:
 
 \begin{verbatim}
-Tag references to entities as in-group ([IN]), out-group ([OUT]) 
-or other ([OTHER]) in live, online sports comments during NFL 
-games. The input is the comment, the in-group team the 
-commenter supports, the out-group opponent team, and the win 
-probability for the in-group at the time of the comment. The 
-win probability is the probability of the in-group winning 
-the game at the time of the comment - if the win probability 
-is high, the in-group team is probably doing well and going 
-to win. Using knowledge of American football and contextual 
-language understanding, identify words and phrases denoting 
-entities (players, teams, city names, sub-groups within the team) 
-that refer to the in-group ([IN] - team the commenter supports), 
+Tag references to entities as in-group ([IN]), out-group 
+([OUT]) or other ([OTHER]) in live, online sports comments 
+during NFL games. The input is the comment, the in-group 
+team the commenter supports, the out-group opponent team, 
+and the win probability for the in-group at the time of 
+the comment. The win probability is the probability of 
+the in-group winning the game at the time of the comment 
+- if the win probability is high, the in-group team is 
+probably doing well and going to win. Using knowledge of 
+American football and contextual language understanding, 
+identify words and phrases denoting entities (players, 
+teams, city names, sub-groups within the team) that 
+refer to the in-group ([IN] - team the commenter supports),
 out-group ([OUT] - the opponent) or other teams ([OTHER] - some 
 other team in the NFL that is not the in-group or the opponent), 
 with respect to the commenter. Return the TARGET comment itself 

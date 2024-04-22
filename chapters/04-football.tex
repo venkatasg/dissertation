@@ -233,11 +233,11 @@ This is a complex task, and for this reason we design a modeling approach that a
 
 \subsection{Model types}
 
-\texttt{Flan-T5-Large} is an encoder-decoder model --- the encoder encodes the input prompt, upon which the decode learns to attend to different regions of interest, when generating its output, token by token. Thus, our task is framed end-to-end as taking the untagged comment with contextual information (in-group, out-group, WP), and it is asked to generate the comment with relevant words/phrases replaced with the appropriate tags. For instance, here is a sample training input:
+\texttt{Flan-T5-Large} is an encoder-decoder model --- the encoder encodes the input, upon which the decoder learns to attend to different regions of interest when generating its output, token by token. Thus, our task is framed end-to-end as the model receiving as input the untagged comment with contextual information (in-group, out-group, WP), and being asked to generate the comment with relevant words/phrases replaced with the appropriate tags. For instance, here is a sample training input:
 
 \begin{verbatim}
-    COMMENT: [SENT] Defense getting absolutely bullied by a dude
-    that looks like he sells solar panels
+    COMMENT: [SENT] Defense getting absolutely bullied by 
+    a dude that looks like he sells solar panels
     IN-GROUP: Jets
     OUT-GROUP: Bears
     WIN PROBABILITY: 71.5%
@@ -254,7 +254,7 @@ and here is the model's expected output after the word TARGET:
 
 In addition to the tagged comment, the model is trained to generate a list of the referring expressions that have been tagged in the original comment (for ease of analysis later).
 
-In general, performance of LLMs has scaled with compute and data in recent years~\citep{kaplan2020scaling}. However, the best LLMs are prohibitive to use in academic research settings due to cost and resources. Finetuning \texttt{Flan-T5} by itself solely on our gold dataset with the above format leads to poor performance by itself, since our training dataset is small. However, we can bolster its performance by incorporating a few different techniques: 
+In general, performance of LLMs has scaled with compute and data in recent years \citep{kaplan2020scaling}. However, the best LLMs are prohibitive to use in academic research settings due to cost and resources. Finetuning \texttt{Flan-T5} by itself solely on our gold dataset with the above format leads to poor performance by itself, since our training dataset is small. However, we can bolster its performance by incorporating a few different techniques: 
 
 \begin{description}
     \item[Few-shot] To facilitate ICL, we prepend 5 examples (not from our gold dataset) with the above training datapoint format to each datapoint in our training data. This gives implicit demonstrations to the model of the behaviors we want it to learn.
@@ -265,19 +265,20 @@ In general, performance of LLMs has scaled with compute and data in recent years
 To generate explanations for all datapoints in the dataset, we use \texttt{gpt-3.5-turbo}, which we prompt with instructions and few-shot examples with explanations appended. Here is an example of a GPT generated explanation for the training example at the beginning of this section:
 
 \begin{verbatim}
-The commenter is likely a fan of the Falcons, as they are playing 
-against the Steelers and have a low win probability. The comment is 
-criticizing the quarterback play of both teams, mentioning 'Pickett' 
-(Steelers) for underthrows (tagged as [OUT]) and 'Mariota' (Falcons) 
-for overthrows (tagged as [IN]). 'we'd' should also be tagged as [IN] 
-since it refers to the in-group, the Falcons.
+The commenter is likely a fan of the Falcons, as they are 
+playing against the Steelers and have a low win probability. 
+The comment is criticizing the quarterback play of both teams, 
+mentioning 'Pickett' (Steelers) for underthrows (tagged as 
+[OUT]) and 'Mariota' (Falcons) for overthrows (tagged as [IN]). 
+'we'd' should also be tagged as [IN] since it refers to the 
+in-group, the Falcons.
 \end{verbatim}
 
 GPT-generated explanations involve complex reasoning over the entities mentioned in the comment, knowledge of football, as well as linguistic reasoning. Thus, while our model is relatively small \footnote{768M parameters, compared to GPT-3.5's 175B parameters}, we can still gain the advantages of CoT through finetuning on GPT-3.5 generated explanations.
 
 \paragraph{Ceiling performance} To compare the effectiveness of our techniques, we also evaluate the performance of GPT-3.5 and GPT4~\citep{achiam2023gpt} on our gold dataset. We present each datapoint from our dataset with instructions, few-shot examples and explanations, asking the model to generate an explanation, a list of referring expressions, and the target tagged comment in that order.
 
-\paragraph{Evaluation \& Implementation} Based on the techiques defined above, we build and compare 4 different fine-tuned models that explore different combinations of techniques: \texttt{fewshot}, \texttt{fewshot+instruct}, \texttt{fewshot+cot}, and \texttt{fewshot+instruct+cot}, where \texttt{+} indicates a combination of 2 or more techniques described above. We partition our gold dataset into a test set of 318 datapoints, and a training set of 1181 datapoints. 
+\paragraph{Evaluation \& Implementation} Based on the techiques defined above, we build and compare 4 different fine-tuned models that explore 4 different combinations of techniques: fewshot, fewshot plus instructions, fewshot plus CoT explanations, and fewshot plus instructions plus CoT explanations. We partition our gold dataset into a test set of 318 datapoints, and a training set of 1181 datapoints. 
 
 To evaluate the performance of a model on the test dataset, we employ two forms of metrics:
 
@@ -287,6 +288,7 @@ To evaluate the performance of a model on the test dataset, we employ two forms 
 \end{itemize}
 
 \subsection{Results}
+\label{subsec:football-results}
 
 \input{tables/results-football.tex}
 
@@ -308,7 +310,7 @@ Is the model's performance affected by win probabilities? To ensure the analyses
 
 In \textsection~\ref{subsec:football-trends}, we observed a clear intergroup bias over state-of-the-world (WP), however the significance of these findings were hampered by the same size of our hand-annotated data, and the expense of scaling towards tagging more comments. Our best fine-tuned model performs extremely well at tagging references to the in-group; while its performance on out-group (and other) references is low, the low-recall is uniform across win probabilities. Thus, the analyses presented in this section are still demonstrative of subtle manifestations of the intergroup bias on real-world language use, that could previously not be described by the LIB.
 
-For the following analyses, we sampled over 223,680 comments from game threads, specifically focusing on \textbf{gametime comments}. We used the best performing \texttt{fewshot-instruct-cot} model to generated tagged comments, as well as the list of referring expressions and their corresponding intergroup tags. To mitigate some errors in copying and displacement, we performed edit checks between the tagged comment and the original comment so that the list of referring expressions was valid. In addition, we performed heuristic based tagging on top of the tagged comments from the model for first-person plural references using \emph{we/us}, as well as common names and nicknames for teams.
+For the following analyses, we sampled over 223,680 comments from game threads, specifically focusing on \textbf{gametime comments}. We used the best performing fine-tuned model from \textsection~\ref{subsec:football-results} to generate tagged comments, as well as the list of referring expressions and their corresponding intergroup tags. To mitigate some errors in copying and displacement, we performed edit checks between the tagged comment and the original comment so that the list of referring expressions was valid. In addition, we performed heuristic based tagging on top of the tagged comments from the model for first-person plural references using \emph{we/us}, as well as common names and nicknames for teams.
 
 \paragraph{In-group trends}
 
