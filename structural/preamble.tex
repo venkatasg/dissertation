@@ -8,8 +8,7 @@
 % need a capability in your document, feel free to comment out/remove
 % the package usage command.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+
 \usepackage{pdflscape}
 \usepackage{layout}
 \usepackage{graphicx}
@@ -25,12 +24,10 @@
 \usepackage{markdown}
 \usepackage{booktabs}
 \usepackage{xurl}
-
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{tabularx}
-\usepackage{bbm}% Allows good typesetting of web URLs.
-\usepackage{mathtools}
+\usepackage{bbm}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -50,8 +47,7 @@
 
 % IPA, monospace, and math fonts
 \setmonofont{Triplicate A}
-\setmathfont[Path=/Users/venkat/Library/Fonts/, Extension=.otf,Scale=0.9,Ligatures=TeX, BoldFont=XCharter-Bold,
-    ItalicFont=XCharter-Italic, Numbers={Uppercase,Monospaced}]{XCharter-Roman}
+\setmathfont[Path=/Users/venkat/Library/Fonts/, Extension=.otf, Ligatures=TeX, BoldFont=XCharter-Math-Bold, ItalicFont=XCharter-Italic]{XCharter-Math}
 
 % Oldstyle tabular numbers inside tabular environment
 \AtBeginEnvironment{tabular}{\addfontfeatures{Numbers={Uppercase, Monospaced}}}
@@ -153,8 +149,11 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=TolRose!70, node distance=0.5cm,minimum height=1em]
 
+
+% Captions
+\usepackage{caption}
+\captionsetup{format=plain, justification=centering}
+
 % Hyphenation
-
 \usepackage{hyphenat}
-
 \hyphenation{Kane-ko}
