@@ -27,7 +27,7 @@ Table~\ref{tab:ib} describes the intergroup language variation as hypothesized i
 
 \paragraph{AlterRep} AlterRep~\citep{ravfogel-etal-2021-counterfactual} is a probing technique that tests if a neural network \emph{uses} a property, rather than just testing if the model's learned representations correlate with the property. The method uses Iterative Nullspace Projection~\citep[INLP;][]{ravfogel-etal-2020-null} to iteratively train a linear classifier on the model's internal representations to pick out a particular feature, using the parameters learned by the classifier to intervene on the embedding and alter it in a systematic way. The AlterRep method based on INLP has been used to probe for syntactic phenomena such as subject-verb number agreement~\citep{ravfogel-etal-2021-counterfactual}. To our knowledge, ours is the first work probing if a model learns and uses higher-level pragmatic features like affect and specificity using AlterRep.
 
-\section{Probing for the intergroup bias}
+\section{Probing for intergroup bias}
 
 \subsection{Data \& Annotations}
 \label{subsec:data}
@@ -130,7 +130,7 @@ In this chapter, we performed a correlational and causal analysis of two pragmat
 Overall, we found no evidence for our general intergroup bias hypothesis, described in Table~\ref{tab:ib}. While disappointing, the findings in this chapter are still instructive towards our next steps. There are 2 major issues that need to be addressed, if we are to truly discover systematic linguistic variations that different in-group speech from out-group speech:
 
 \begin{enumerate}
-    \item We need diverse real-world data, that reflects natural language use, at a larger scale. While our dataset of political tweets has served us well, it is limited in terms of its utility. Many of the tweets themselves are composed by social media teams employed by politicians, and are composed with political gain in mind. Moreover, the volume of tweets, and the representative groups in the context of U.S politics are small. We also need ample, high-quality data to build reliable computational models for prediction and analysis of the intergroup bias.
+    \item We need diverse real-world data, that reflects natural language use, at a larger scale. While our dataset of political tweets has served us well, it is limited in terms of its utility. Many of the tweets themselves are composed by social media teams employed by politicians, and are written with political gain in mind. Moreover, the volume of tweets, and the representative groups in the context of U.S politics are small. We also need ample, high-quality data to build reliable computational models for prediction and analysis of intergroup bias.
     \item The data needs to be tied to real-world events. Currently, both axes of variation in our novel hypothesis, affect and specificity, are both features derived from the utterance. This confounds analysis and discovery of variation between groups --- the LIB describes asymmetrical linguistic changes in abstractness in response to variation in acceptability of real-world behaviors (social desirability). We attempted to approximate social desirability through affect, but we don't have access to the direct affect of the speaker towards a referent, and this is impossible to obtain at scale. Thus, we need a robust measurement of a variable that describes the \textbf{state-of-the-world} preceding an utterance.
 \end{enumerate}
 
